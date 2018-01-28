@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Tp3</string>
+    <string name="country_prompt">Choose a country</string>
+
+    <string-array name="colorArray">
+        <item>Red</item>
+        <item>Blue</item>
+        <item>Green</item>
+    </string-array>
+</resources>
