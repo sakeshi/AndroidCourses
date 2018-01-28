@@ -1,6 +1,8 @@
 package suite.tp2.dectobin;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,7 +10,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -25,17 +29,32 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
         EditText input = (EditText) findViewById(R.id.input);
+
          max = getIntent().getIntExtra("max",0);
          Log.i("me","e" + max);
          int cons = 0;
-         for (int i = 0; i< max;i++){
+        LinearLayout layout =  new LinearLayout(this);
+        ConstraintLayout constLayout = findViewById(R.id.sndAct);
 
-             ToggleButton t = new ToggleButton(this);
-             t.setChecked(false);
-             t.setText("0");
-             t.setTextOff("0");
-             t.setTextOn("1");
+        for (int i = 0; i< max;i++){
 
+            ToggleButton t = new ToggleButton(this);
+            t.setChecked(false);
+            t.setText("0");
+            t.setTextOff("0");
+            t.setTextOn("1");
+            RelativeLayout.LayoutParams params  = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(cons,0,0,0);
+            params.width = 90;
+            t.setLayoutParams(params);
+
+
+             tB.add(t);
+
+             layout.addView(t);
+
+
+/*
              RelativeLayout.LayoutParams params  = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
              params.setMargins(cons,0,0,0);
              params.width = 90;
@@ -44,9 +63,19 @@ public class SecondActivity extends AppCompatActivity {
              tB.add(t);
             RelativeLayout sndAct = (RelativeLayout) findViewById(R.id.sndAct);
             sndAct.addView(t);
-            cons += 100;
-         }
+            cons += 100;*/
+        }
 
+
+        constLayout.addView(layout);
+        ConstraintLayout constL = findViewById(R.id.sndAct);
+        ConstraintSet set = new ConstraintSet();
+        set.clone(constL);
+
+        set.connect(layout.getId(),ConstraintSet.TOP,constL.getId(), ConstraintSet.TOP, 5);
+        set.connect(layout.getId(),ConstraintSet.BOTTOM,input.getId(), ConstraintSet.TOP, 5);
+        set.connect(input.getId(),ConstraintSet.BOTTOM,constL.getId(), ConstraintSet.BOTTOM,50);
+        set.applyTo(constL);
         input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
