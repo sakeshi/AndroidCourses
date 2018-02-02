@@ -13,10 +13,6 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Quentin on 27/01/2018.
- */
-
 public class Dessin extends View {
 
     List<Point> points = new ArrayList<>();
