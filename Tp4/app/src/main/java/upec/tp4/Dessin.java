@@ -4,20 +4,28 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Quentin on 03/02/2018.
  */
 
 public class Dessin extends View {
 
-    List<Point> points = new ArrayList<>();
+    public ArrayList<Point> getPoints() {
+        return points;
+    }
+
+    public void setPoints(ArrayList<Point> points) {
+        this.points = points;
+    }
+
+    ArrayList<Point> points = new ArrayList<>();
 
     String color ="Black";
     float stroke = 5.0f;
@@ -74,5 +82,22 @@ public class Dessin extends View {
     }
     public void addPoint(float x, float y, Paint c){
         points.add(new Point(x,y,c));
+    }
+
+
+
+    public Parcelable onSaveInstanceState() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("superState", super.onSaveInstanceState());
+        bundle.putParcelableArrayList("points",points);
+        return bundle;
+    }
+    public void onRestoreInstanceState(Parcelable state){
+        if(state instanceof Bundle){
+            Bundle bundle = (Bundle) state;
+            state = bundle.getParcelable("superState");
+            points = bundle.getParcelableArrayList("points");
+        }
+        super.onRestoreInstanceState(state);
     }
 }

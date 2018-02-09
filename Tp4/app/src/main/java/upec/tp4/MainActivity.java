@@ -1,6 +1,8 @@
 package upec.tp4;
 
 import android.content.Intent;
+import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,9 +16,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         dessin = (Dessin) findViewById(R.id.dessin);
 
+        //dessin.onSaveInstanceState(savedInstanceState);
+/*
+        if(savedInstanceState != null){
+            dessin.onRestoreInstanceState(savedInstanceState.getParcelable("points"));
+
+            //dessin.setPoints(savedInstanceState.<Point>getParcelableArrayList(parc));
+        }*/
         Button pal = (Button) findViewById(R.id.palette);
         pal.setOnClickListener(new View.OnClickListener() {
                                    @Override
@@ -27,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
                                }
 
         );
-
 
     }
     public void clearCanvas(View v){
@@ -55,4 +62,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    /*
+    public Parcelable onSaveInstanceState(){
+        Parcelable superSave = super.onSaveInstanceState();
+        Save saveState = new Save(superSave);
+
+        return saveState;
+    }
+
+*/
 }
