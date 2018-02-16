@@ -1,5 +1,6 @@
 package upec.bluetooth;
 
+import android.app.Notification;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
@@ -12,6 +13,50 @@ import java.util.UUID;
  */
 
 public class ServeurBluetooth extends Thread {
+
+    private final BluetoothServerSocket mmServerSocket;
+
+    private UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
+
+    public ServeurBluetooth(BluetoothAdapter mBluetoothAdapter) {
+        BluetoothServerSocket tmp = null;
+        try {
+            tmp = mBluetoothAdapter.listenUsingRfcommWithServiceRecord(mBluetoothAdapter.getName(), MY_UUID);
+        } catch (IOException e) { }
+        mmServerSocket = tmp;
+    }
+
+    public void run() {
+        BluetoothSocket socket = null;
+        while (socket == null) {
+            try {
+                socket = mmServerSocket.accept();
+            } catch (IOException e) {
+                break;
+            }
+
+            if (socket != null) {
+                manageConnectedSocket(socket);
+
+                //mmServerSocket.close();
+
+                break;
+
+            }
+        }
+    }
+
+    private void manageConnectedSocket(BluetoothSocket socket) {
+    }
+
+    public void cancel() {
+        try {
+            mmServerSocket.close();
+        } catch (IOException e) { }
+    }
+
+    /*
     private final BluetoothServerSocket blueServerSocket;
     private UUID DEFAULT_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
@@ -57,5 +102,5 @@ public class ServeurBluetooth extends Thread {
             blueServerSocket.close();
         } catch (IOException e) { }
     }
-
+*/
 }
